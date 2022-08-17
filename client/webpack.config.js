@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
@@ -28,15 +29,16 @@ module.exports = () => {
         swSrc: './src-sw.js',
         swDest: 'src-sw.js',
       }),
+      new MiniCssExtractPlugin(),
       // Creates a manifest.json file
       new WebpackPwaManifest ({
-        fingerpringts: false,
+        fingerprints: false,
         inject: true,
         name: 'Just Another Note Editor',
         short_name: 'JATE',
         description: 'a note taker that functions with or without internet!',
         background_color: '#225ca3',
-        theme_color: '225ca2',
+        theme_color: '#225ca2',
         start_url: './',
         publicPath: './',
         icons: [
@@ -54,7 +56,7 @@ module.exports = () => {
       rules: [
         {
           test: /\.css$/i,
-          use: ['style-loader', 'css-loader'],
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
           test: /\.m?js$/,
